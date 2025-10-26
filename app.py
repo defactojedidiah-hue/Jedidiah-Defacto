@@ -1,13 +1,15 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template_string
 app = Flask(__name__)
 
-# --- Original Code (kept) ---
 @app.route('/')
 def home():
-    # New: Return a styled HTML page
-    return """
-    <html>
+    # This returns real HTML with design
+    html_page = """
+    <!DOCTYPE html>
+    <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Jedidiah's Flask API</title>
         <style>
             body {
@@ -22,45 +24,52 @@ def home():
                 margin: 0;
                 text-align: center;
             }
+            .card {
+                background: rgba(255, 255, 255, 0.1);
+                padding: 40px;
+                border-radius: 20px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                backdrop-filter: blur(12px);
+                width: 90%;
+                max-width: 450px;
+            }
             h1 {
-                font-size: 3em;
+                font-size: 2.5em;
                 margin-bottom: 10px;
             }
             p {
-                font-size: 1.3em;
-                max-width: 500px;
-                line-height: 1.5em;
-            }
-            .card {
-                background: rgba(255, 255, 255, 0.15);
-                padding: 30px;
-                border-radius: 20px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-                backdrop-filter: blur(10px);
+                font-size: 1.2em;
+                margin-bottom: 20px;
             }
             a {
-                color: #ffeaa7;
+                background: #ffeaa7;
+                color: #2d3436;
+                padding: 10px 25px;
+                border-radius: 10px;
                 text-decoration: none;
                 font-weight: bold;
+                transition: 0.3s;
             }
             a:hover {
-                text-decoration: underline;
+                background: #fab1a0;
+                transform: scale(1.05);
             }
         </style>
     </head>
     <body>
         <div class="card">
             <h1>Welcome to My Flask API 👋</h1>
-            <p>“Success doesn’t come from what you do occasionally; it comes from what you do consistently.”</p>
-            <p><a href="/student">View Student Info →</a></p>
+            <p>"Keep believing in yourself — consistency creates success."</p>
+            <a href="/student">View Student Info</a>
         </div>
     </body>
     </html>
     """
+    return render_template_string(html_page)
 
 @app.route('/student')
 def get_student():
-    # Added new details
+    # JSON data with extra info
     return jsonify({
         "name": "Jedidiah",
         "grade": 14,
@@ -71,6 +80,5 @@ def get_student():
         "inspiring_message": "Keep pushing forward — your hard work will pay off!"
     })
 
-# --- Keep this as is ---
 if __name__ == '__main__':
     app.run(debug=True)

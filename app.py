@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, render_template_string
 
 app = Flask(__name__)
 
-# 👨‍🎓 In-memory student data (sample)
+# 👨‍🎓 In-memory student data
 students = [
     {"name": "Jedidiah Defacto", "grade": 95, "bmi": 22.3, "address": "Iloilo City", "gender": "Male", "age": 21}
 ]
@@ -79,13 +79,19 @@ def home():
             }
             .student-card {
                 background: #f1f2f6;
-                padding: 15px;
-                margin-bottom: 10px;
+                padding: 15px 20px;
+                margin-bottom: 15px;
                 border-radius: 10px;
                 box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
                 position: relative;
             }
-            .student-card strong {
+            .student-info {
+                flex: 1;
+            }
+            .student-info strong {
                 color: #2d3436;
                 font-size: 18px;
             }
@@ -96,10 +102,8 @@ def home():
                 padding: 6px 12px;
                 border-radius: 6px;
                 cursor: pointer;
-                position: absolute;
-                right: 15px;
-                top: 15px;
                 transition: 0.3s;
+                font-size: 14px;
             }
             .delete-btn:hover {
                 background: #b71c1c;
@@ -136,12 +140,14 @@ def home():
             <h3>📋 List of Students</h3>
             {% for s in students %}
                 <div class="student-card">
-                    <strong>{{ s.name }}</strong><br>
-                    Grade: {{ s.grade }} | BMI: {{ s.bmi }} | Age: {{ s.age }} | Gender: {{ s.gender }}<br>
-                    Address: {{ s.address }}
+                    <div class="student-info">
+                        <strong>{{ s.name }}</strong><br>
+                        Grade: {{ s.grade }} | BMI: {{ s.bmi }} | Age: {{ s.age }} | Gender: {{ s.gender }}<br>
+                        Address: {{ s.address }}
+                    </div>
                     <form method="POST" action="/delete_student">
                         <input type="hidden" name="name" value="{{ s.name }}">
-                        <button class="delete-btn" type="submit">Delete</button>
+                        <button class="delete-btn" type="submit">🗑️ Delete</button>
                     </form>
                 </div>
             {% endfor %}
